@@ -16,7 +16,6 @@ app.use(express.json({limit: '50mb',parameterLimit:5000000}));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:5000000}));
 
-
 app.post("/api/insert",(req, res)=> {
     const titulo = req.body.titulo
     const info = req.body.info
@@ -37,6 +36,20 @@ app.get("/api/get",(req,res)=>{
         res.send(result)
     })
 })
+
+var logueado = false
+
+app.post("/api/login",(req,res)=>{
+    const usuario = req.body.usuario
+    const contraseña = req.body.contraseña
+
+    const verificar = `SELECT * FROM usuarios WHERE usuario = "${usuario}" and contraseña = "${contraseña}"`
+    db.query(verificar,(err,result)=>{
+        console.log(result)
+        res.send(result)
+    })
+})
+
 
 var PORT = 3001;
 app.listen(PORT,()=>{

@@ -30,7 +30,7 @@ const Editor = () => {
     const enviarNoticia = ()=>{
         let fecha = moment().format("LL")
         let fechaformato = moment().format()
-        if(categoria!=""){
+        if(categoria!=""&&imagen!=""&&titulo!=""){
             Axios.post("http://localhost:3001/api/insert",{
                 titulo: titulo, 
                 info: info, 
@@ -45,7 +45,7 @@ const Editor = () => {
             })
         }
         else{
-            alert("Seleccione una categoria")
+            alert("Complete todos los campos")
         }
     }
 
@@ -78,8 +78,8 @@ const Editor = () => {
                         <div className="form">
                             <input 
                                 type="file" 
+                                required
                                 onChange={(e)=>{
-                                    // setImagen(e.target.value)
                                     subirImagen(e)
                                 }}/>
                                 <input 

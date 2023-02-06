@@ -1,27 +1,37 @@
-import {BrowserRouter,Routes,Route} from "react-router-dom"
+import {BrowserRouter,Routes,Route,useLocation} from "react-router-dom"
 import '../componentes/styles.css'
 import Editor from "./Editor"
-import NoticiaNueva from "./NoticiaNueva"
 import NavBar from './NavBar'
 import LandingNoticias from './LandingNoticias'
-import Sesion from './Sesion'
+import Auth from './Auth'
 import NoticiasListContainer from './NoticiasListContainer'
 import NoticiaDetalleContainer from './NoticiaDetalleContainer'
+import Update from "./Update"
+import MiProvider from "./AuthContext"
+import RutaPrivada from "./RutaPrivada"
 
 const App = () => {
+
     return (
     <>
-        <BrowserRouter>
-            <NavBar />
-            <Routes>
-                <Route path="/" element={<LandingNoticias />} />
-                <Route path="Categoria/:categoria" element={<NoticiasListContainer />} />
-                <Route path="Noticia/:idnoticia" element={<NoticiaDetalleContainer />} />
-                <Route path="Login" element={<Sesion />}/>
-                {/* <Route path="NoticiaNueva" element={<NoticiaNueva />}/> */}
-                <Route path="NoticiaNueva" element={<Editor />}/>
-            </Routes>   
-        </BrowserRouter>
+        <MiProvider>
+            <BrowserRouter>
+                <NavBar />
+                <Routes>
+                    <Route path="/" element={<LandingNoticias />} />
+                    <Route path="Categoria/:categoria" element={<NoticiasListContainer />} />
+                    <Route path="Noticia/:idnoticia" element={<NoticiaDetalleContainer />} />
+                    <Route path="/Login" element={<Auth />} />
+                    
+                    <Route path="NoticiaNueva" element={
+                        <RutaPrivada>
+                            <Editor />
+                        </RutaPrivada>
+                    }/>
+                    {/* <Route path="Edit/" element={<Update />} /> */}
+                </Routes>   
+            </BrowserRouter>
+        </MiProvider>
     </>
     )
 }
