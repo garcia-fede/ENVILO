@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    scroll-behavior: smooth;
 }
 
 :root{
@@ -15,6 +16,10 @@
 
 main{
     margin-top: 111px;
+}
+
+br{
+    display: none;
 }
 
 /*---------------- NavBar ----------------------*/
@@ -54,15 +59,23 @@ main{
     text-decoration: none;
 }
 
-
 .topLine ul li:nth-child(n+4){
     float: right;
+}
+
+.temperatura{
+    display: flex;
+    align-items: center;
 }
 
 .redes{
     position: absolute;
     display: flex;
     right: 0px;
+}
+
+.iconoClima{
+    width: 50px;
 }
 
 .icon{
@@ -97,6 +110,22 @@ main{
     margin: 0 20px;
 }
 
+#subirPosteo{
+    padding: 5px 15px;
+    border: 1px solid black;
+    background: white;
+    border-radius: 5px;
+    color:black;
+}
+
+#subirPosteo:hover{
+    background: black;
+}
+
+#subirPosteo:hover a{
+    color: white;
+}
+
 .navBar li a{
     color: black;
     text-decoration: none;
@@ -122,7 +151,138 @@ main{
     display: none;
 }
 
-/*---------------- Fin NavBar ----------------------*/
+/*---------------- Footer ----------------------*/
+
+.bottomLine{
+    min-height: 400px;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.829);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 15px;
+    box-sizing: border-box;
+    font-weight: 500;
+    background: #010101;
+    bottom: 0;
+    z-index: 9999;
+}
+
+.bottomLine form{
+    width: 400px;
+    min-height: 320px;
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.bottomLine form h2{
+    margin-bottom: 10px;
+}
+
+::placeholder{
+    padding: 0 5px;
+    color: white;
+}
+
+.bottomLine form input{
+    background: none;
+    border: none;
+    border-bottom: 1px solid white;
+    width: 99.5%;
+    height: 15px;
+    margin: 2.5px 0;
+    font-size: 16px;
+    color: white;
+    padding: 10px 0;
+}
+
+.bottomLine form p{
+    margin-top: 10px;
+    background: none;
+    border: none;
+    resize: none;
+    font-size: 16px;
+    color: white;
+    min-height: 100px;
+    border-bottom: 1px solid white;
+}
+
+.bottomLine form p span{
+    width: 100%;
+    min-height: 120px;
+    display: block;
+}
+
+.bottomLine form p:hover{
+    cursor: text;
+}
+
+[contenteditable] {
+    outline: 0px solid transparent;
+}
+
+span[contenteditable]:empty::before{
+    content: 'Mensaje';
+    font-weight: 400;
+    padding: 0 5px;
+}
+
+.bottomLine button{
+    width: 80px;
+    height: 40px;
+    font-size: 16px;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.bottomLine button:hover{
+    cursor: pointer;
+    background: #f3f3f3c5;
+}
+
+.bottomLine .sitemap{
+    width: 50%;
+    min-height: 320px;
+    display: flex;
+    gap: 150px;
+    position: relative;
+}
+
+.bottomLine .sitemap ul h2{
+    margin-bottom: 25px;
+}
+
+.bottomLine .sitemap ul li{
+    list-style: none;
+    padding: 5px 0;
+    margin: 5px 0;
+}
+
+.bottomLine .sitemap ul li a{
+    color: var(--texto_autor);
+    text-decoration: none;
+}
+
+.bottomLine .sitemap ul li a:hover, .bottomLine .sitemap p a:hover{
+    color: yellow;
+    transform: 0.7s;
+}
+
+.bottomLine .sitemap p{
+    position: absolute;
+    bottom: 35px;
+    border-top: 1px solid grey;
+    width: 90%;
+    padding-top: 15px;
+}
+
+.bottomLine .sitemap p a{
+    text-decoration: none;
+    color: var(--texto_autor);
+}
 
 /*---------------- Landing Page --------------------*/
 
@@ -134,7 +294,7 @@ main{
     grid-template-columns: 2fr 1fr;
     gap: 25px;
     color: white;
-    height: 500px;
+    height: 600px;
 }
 
 .ultimaNoticiaContainer{
@@ -142,8 +302,8 @@ main{
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 850px;
-    height: 500px;
+    width: 1000px;
+    height: 600px;
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
 
 }
@@ -189,6 +349,11 @@ main{
     text-transform: lowercase;
     color: var(--texto_autor);
     font-weight: 300;
+    text-shadow: rgb(8, 0, 0) 0px 0 10px;
+}
+
+#tituloUltima{
+    font-size: 30px;
 }
 
 .otrasNoticiasContainer{
@@ -196,8 +361,8 @@ main{
     flex-direction: column-reverse;
     justify-content: space-between;
     align-items: flex-start;
-    width: 375px; /* 400-25px por el Gap en landingContainer */
-    height: 500px;
+    width: 100%; /* 400-25px por el Gap en landingContainer */
+    height: 600px;
 }
 
 .otrasNoticiasContainer h1{
@@ -281,6 +446,7 @@ main{
 /*---- Fin Categorias en Landing ----*/
 
 .noticiaPequeña{
+    height: 125px;
     width: 100%;
     display: flex;
     gap: 25px;
@@ -295,7 +461,7 @@ main{
 }
 
 .noticiaPequeña img{
-    width: 100px;
+    width: 125px;
     aspect-ratio: 1;
 }
 
@@ -374,6 +540,7 @@ main{
 }
 
 .noticiaMediana{
+    position: relative;
     width: 60%;
     display: flex;
     gap: 25px;
@@ -383,6 +550,26 @@ main{
     overflow-y: hidden;
     border-bottom: 0.25px solid rgba(0, 0, 0, 0.178);
     align-items: center;
+}
+
+.noticiaMediana .eliminarNoticia{
+    height: 25px;
+    width: auto;
+    position: absolute;
+    right: 55px;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.noticiaMediana .eliminarNoticia img{
+    width: 25px;
+    aspect-ratio: 1;
+}
+
+.noticiaMediana .eliminarNoticia:hover{
+    cursor: pointer;
 }
 
 .noticiaMediana img{
@@ -463,6 +650,7 @@ main{
 }
 
 .noticiaDetalle h1{
+    margin: 0 10%;
     align-self: center;
     position: absolute;
     top: 200px;
@@ -482,7 +670,7 @@ main{
 }
 
 .noticiaDetalle .fecha{
-    top: 270px;
+    top: 300px;
     position: absolute;
     color: white;
     font-size: 1rem;
@@ -531,6 +719,39 @@ main{
     color: var(--texto_informacion);
     font-weight: 400;
 }
+
+.noticiaDetalle .editarNoticia{
+    width: auto;
+    display: flex;
+    align-items: center;
+    display: none;
+    border: 1px solid black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    gap: 5px;
+    cursor: pointer;
+    color: black;
+}
+
+.noticiaDetalle a{
+    text-decoration: none;
+}
+
+.noticiaDetalle .editarNoticia:hover{
+    background: rgb(211, 211, 211);
+    transition: 0.1s;
+}
+
+.noticiaDetalle .editarNoticia h3{
+    margin: 0;
+    width: auto;
+}
+
+.noticiaDetalle .editarNoticia svg{
+    height: 25px;
+    width: 25px;
+}
+
 /*-----------Fin noticia en detalle ----------------*/
 
 /*--- Subir noticia ---------*/
@@ -571,6 +792,22 @@ main{
     text-align: center;
 }
 
+.noticiaDetalle p{
+    align-self:flex-start;
+}
+
+.noticiaDetalle p.ql-align-center{
+    align-self:center;
+}
+
+.noticiaDetalle p.ql-align-right{
+    align-self:flex-end;
+}
+
+.quill .ql-editor br{
+    display: block;
+}
+
 .quill {
     margin: 15px 0 30px 0;
 }
@@ -602,36 +839,177 @@ main{
     display: flex;
     justify-content: center;
     font-size: 1.5rem;
+    padding-top: 10px;
 }
 
 .form input{
     font-size: 1.5rem;
-    border: none;
     text-align: center;
     width: 75%;
 }
 
+.containerSEO{
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.descripcionSEO label{
+    width: 200px;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.descripcionSEO {
+    overflow-y: auto;
+    font-size: 18px;
+    width: 50%;
+}
+
+.descripcionSEO span{
+    margin-top: 5px;
+    padding-left: 5px;
+    width: 500px;
+    min-height: 120px;
+    display: block;
+    border: 1px solid rgb(146, 145, 145);
+}
+
+.descripcionSEO span[contenteditable]:empty::before{
+    content: '';
+}
+
+.keywordsSEO{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+.keywordsSEO label{
+    width: 200px;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.keywordsSEO input{
+    width: 200px;
+    height: 30px;
+    padding-left: 5px;
+}
+
+.keywordsSEO button{
+    width: 100px;
+    margin-top: 10px;
+}
+
+.keywordsDisplay{
+    width: 300px;
+    height: 100px;
+    margin-top: 25px;
+    /* flex-wrap: wrap; */
+    /* justify-content: start; */
+}
+
+.keywordsDisplay button{
+    display: flex;
+    width: auto;
+    align-items: center;
+    gap: 5px;
+    float: left;
+}
+
+.keywordsDisplay svg{
+    pointer-events: none;
+    width: 20px;
+    height: 20px;
+}
 
 /*--- Fin subir noticia ---------*/
 
 /*---- Login ----*/
 
 .login{
-    margin-top: 200px;
+    display: flex;
+    width: 80%;
+    margin: 200px 10% 110px 10%;
+}
+
+.login div{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 100px 0;
+    align-items: center;
+}
+
+.login input,label,button{
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.login input{
+    width: 250px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.login img{
+    width: 400px;
+    height: 400px;
+    margin-left: 100px;
+}
+
+.login button{
+    font-size: 24px;
+    width: 250px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 0;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.login button:hover{
+    cursor: pointer;
+    background: black;
+    color: white;
 }
 
 /*------------ Media queries ---------------*/
 
+@media (max-width: 1650px) {
+    .landingContainer{
+        height: 500px;
+    }
+
+    .ultimaNoticiaContainer{
+        width: 850px;
+        height: 500px;
+    }
+    .otrasNoticiasContainer{
+        width: 375px;
+        height: 500px;
+    }
+
+    .noticiaPequeña{
+        height: 100px;
+    }
+
+    .noticiaPequeña img{
+        width: 100px;
+    }
+}
+
 
 @media (max-width: 1450px) {
     /*----Landing----*/
-
     .ultimaNoticiaContainer{
         width: 650px;
     }
     .noticiaMediana{
         width: 70%;
-    }
+    }    
 }
 
 @media (max-width: 1200px) {
@@ -701,6 +1079,7 @@ main{
     }
 
     .noticiaPequeña{
+        height: auto;
         margin-bottom: 25px;
         box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
     }
@@ -778,8 +1157,9 @@ main{
         justify-content: center;
     }
 
-    .topLine .redes img{
-        width: 25px;
+    .topLine .temperatura .icon{
+        width: 15px;
+        filter: invert(0);
     }
 
     /*----NavBar----*/
@@ -833,6 +1213,16 @@ main{
         width: 85%;
     }
     
+    /*---- Noticia Mediana ----*/
+
+    .noticiaMediana .eliminarNoticia {
+        display: none;
+    }
+
+    .noticiaMediana .editarNoticia{
+        display: none;
+    }
+
     /*--------Detalle-------*/
 
     .noticiaDetalle h1{
@@ -909,6 +1299,15 @@ main{
         left: 20px;
     }
 
+    .ultimaNoticiaContainer p a h2{
+        font-size: 26px;
+        margin: 10px 0;
+    }
+
+    #tituloUltima{
+        font-size: 24px;
+    }
+
     .ultimaNoticiaContainer p{
         max-width: 75%;
     }
@@ -962,6 +1361,23 @@ main{
     .noticiaMediana .searchTag{
         margin-top: 0;
     }
+
+    /*------Footer-----*/
+
+    .bottomLine{
+        flex-direction: column-reverse;
+    }
+
+    .bottomLine form{
+        width: 80%;
+        margin: 0 10%;
+        padding: 50px 0 0 0;
+    }
+
+    .bottomLine .sitemap{
+        width: 80%;
+        padding: 50px 0 0 0;
+    }
 }
 
 @media (max-width: 450px)
@@ -972,8 +1388,13 @@ main{
         display: flex;
         flex-direction: column;
         height: auto;
+        width: 100%;
+        padding: 0px;
+    }
+
+    .otrasNoticiasContainer{
         width: 95%;
-        padding: 0px 2.5% 25px 2.5%;
+        padding: 0px 2.5% 0px 2.5%;
     }
 
     .ultimaNoticiaContainer{
@@ -1032,4 +1453,19 @@ main{
     .noticiaMediana, .previewNoticia{
         width: 95%;
     }
+
+    /*---- Footer ----*/
+
+    .bottomLine form{
+        width: 90%;
+        margin: 0 5%;
+        padding: 50px 0 0 0;
+    }
+
+    .bottomLine .sitemap{
+        width: 90%;
+        padding: 50px 0 0 0;
+        gap: 75px;
+    }
+
 }

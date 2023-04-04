@@ -7,13 +7,16 @@ import NoticiaDetalle from "./NoticiaDetalle";
 
 const NoticiaDetalleContainer = ()=>{
     moment.locale('es')
-    const {idnoticia} = useParams()
+    const {noticia} = useParams()
 
     const [noticias,setNoticias] = useState([])
     
     useEffect(()=>{
-        Axios.get("http://localhost:3001/api/get").then((respuesta)=>{
-            setNoticias(respuesta.data.filter(noticia=>noticia.idnoticia==idnoticia))
+        Axios.get("https://envilo.com.ar/api/get").then((respuesta)=>{
+            // Comparar titulos de la base de datos, pasandolos al formato URL y comparandolo con el URL de la noticia para obtener
+            // la noticia correcta
+            setNoticias(respuesta.data.filter(nota=>
+                nota.titulo.toLowerCase().normalize("NFD").replace(/[^a-zA-Z0-9\s]/g, "").replace(/[\u0300-\u036f]/g, "")==noticia.replace(/-/g, " ")))
         })
     },[])    
 

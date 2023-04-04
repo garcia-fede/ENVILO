@@ -4,29 +4,30 @@ import twitter from "../imagenes/twitter.png"
 import instagram from "../imagenes/instagram.png"
 import linkedin from "../imagenes/linkedin.png"
 import email from "../imagenes/email.png"
+import soleado from "../imagenes/soleado.png"
+import parcialmente_nublado from "../imagenes/parcialmente_nublado.png"
+import nublado from "../imagenes/nublado.png"
+import lluvia from "../imagenes/lluvia.png"
+import tormenta from "../imagenes/tormenta.png"
 import moment from "moment";
 import 'moment/locale/es'; //Importar moment en español
-import { useContext } from "react"
-import { contexto } from "./AuthContext"
+import { useContext, useEffect, useState } from "react"
+import { contexto } from "./Context"
+import Axios from "axios"
 
 const NavBar = () => {
     const {login,setLogin} = useContext(contexto)
-    let elemento;
-    let elementoLogin
-    console.log(login)
-    console.log(localStorage.getItem('logueado'))
+    const [temperatura,setTemperatura] = useState()
+    const [icono,setIcono] = useState()
+    const [tiempo,setTiempo] = useState()
+
+    let clima_api_key = "476369efd7bdf05b9d0869c2d38d25fd";
+    let elementoPost;
     if(login==true){
-        elementoLogin = <li onClick={()=>
-            {
-                setLogin(false)
-                localStorage.setItem('logueado',false)
-            }
-        }><Link to="/">Log out</Link></li>
-        elemento = <li className="item"><Link to="NoticiaNueva/">Post</Link></li>
+        elementoPost = <li className="item" id="subirPosteo"><Link to="NoticiaNueva/">Subir posteo</Link></li>
     }
     else{
-        elementoLogin = <li> <Link to="/Login">Admin</Link></li>
-        elemento = ""
+        elementoPost = ""
     }
 
     moment.locale('es')
@@ -65,17 +66,74 @@ const NavBar = () => {
             hamburger=!hamburger
         }
     }
+
+    const seleccionarIcono = (icon)=>{
+        switch (icon) {
+            case "01n":
+            case "01d":
+                return <img className="iconoClima" src={soleado} />;
+            case "02n":
+            case "03n": 
+            case "02d":
+            case "03d":
+                return <img className="iconoClima" src={parcialmente_nublado} />;
+            case "04d":
+            case "04n":
+                return <img className="iconoClima" src={nublado} />;
+            case "09d":
+            case "10d":
+            case "09n":
+            case "10n":
+                return <img className="iconoClima" src={lluvia} />;
+            case "11d":
+            case "11n":
+                return <img className="iconoClima" src={tormenta} />;
+            default:
+                return;
+        }
+    }
+
+    useEffect(()=>{
+        const fetchData = async () => {
+            const resultado = await Axios(
+                `https://api.openweathermap.org/data/2.5/weather?lat=-34.5244484&lon=-58.5036282&appid=${clima_api_key}`
+            );
+            let {temp} = resultado.data.main
+            setTemperatura(Math.round(temp-273) + "°C")
+            let {icon} = resultado.data.weather[0]
+            setIcono(seleccionarIcono(icon))
+            
+            const reloj = new Date()
+            const relojFormateado = reloj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            setTiempo(relojFormateado)
+            };
+        fetchData();
+    },[])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const reloj = new Date()
+            const relojFormateado = reloj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            setTiempo(relojFormateado)
+        }, 60000);
+        return () => clearInterval(interval);
+    }, []);
+
     return(
         <>
             <div className="topLine">
                 <ul>
                     <li>{moment().format('LL')}</li>
-                    {elementoLogin}
+                    <li>{tiempo}</li>
+                    <li className="temperatura">
+                        {icono}
+                        <p>{temperatura}</p>
+                    </li>
                     <div className="redes">
-                        <li><a href="https://twitter.com/envilonews"><img className="icon" src={twitter} alt="twitterIcon" /></a></li>
-                        <li><a href="https://www.instagram.com/envilonews/?hl=es-la"><img className="icon" src={instagram} alt="instagramIcon" /></a></li>
-                        <li><a href="https://www.linkedin.com/in/garcialucianag/"><img className="icon" src={linkedin} alt="linkedinIcon" /></a></li>
-                        <li><a href=""><img className="icon" src={email} alt="emailIcon" /></a></li>
+                        <li><a target="_blank" href="https://twitter.com/envilonews" rel="noopener noreferrer"><img className="icon" src={twitter} alt="twitterIcon" /></a></li>
+                        <li><a target="_blank" href="https://www.instagram.com/envilonews/?hl=es-la" rel="noopener noreferrer"><img className="icon" src={instagram} alt="instagramIcon" /></a></li>
+                        <li><a target="_blank" href="https://www.linkedin.com/in/garcialucianag/" rel="noopener noreferrer"><img className="icon" src={linkedin} alt="linkedinIcon" /></a></li>
+                        <li><a href="#formContacto"><img className="icon" src={email} alt="emailIcon" /></a></li>
                     </div>
                 </ul>
             </div>
@@ -88,14 +146,12 @@ const NavBar = () => {
                 </label>
                 <div><Link to="/"><img src={LOGO} alt="logo" id="LOGO"/></Link></div>
                 <li className="item"><Link to="/">Inicio</Link></li>
-                <li className="item"><Link to="Categoria/Sociedad">Sociedad</Link></li>
-                <li className="item"><Link to="Categoria/Politica">Politica</Link></li>
-                <li className="item"><Link to="Categoria/Deportes">Deportes</Link></li>
-                <li className="item"><Link to="Categoria/Cultura">Cultura</Link></li>
-                <li className="item"><Link to="Categoria/MedioAmbiente">Medio ambiente</Link></li>
-                {/* <li className="item"><Link to="Login/">Log in</Link></li> */}
-                {/* <li className="item"><Link to="NoticiaNueva/">Post</Link></li> */}
-                {elemento}
+                <li className="item"><Link to="/sociedad">Sociedad</Link></li>
+                <li className="item"><Link to="/politica">Politica</Link></li>
+                <li className="item"><Link to="/deportes">Deportes</Link></li>
+                <li className="item"><Link to="/cultura">Cultura</Link></li>
+                <li className="item"><Link to="/medioambiente">Medio ambiente</Link></li>
+                {elementoPost}
             </ul>
         </>
     )

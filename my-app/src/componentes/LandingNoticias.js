@@ -4,11 +4,12 @@ import { Link } from "react-router-dom"
 import NoticiaPequeña from "./NoticiaPequeña"
 import NoticiaCategorias from "./NoticiaCategorias"
 import moment from "moment";
-import { contexto } from "./AuthContext"
+import { contexto } from "./Context"
+import { Helmet } from 'react-helmet';
+
 
 const LandingNoticias = () => {
 
-    const {login,setLogin} = useContext(contexto)
     moment.locale('es')
     const [noticias,setNoticias] = useState([])
     const [deportes,setDeportes] = useState([])
@@ -16,6 +17,7 @@ const LandingNoticias = () => {
     const [sociedad,setSociedad] = useState([])
     const [cultura,setCultura] = useState([])
     const [medioAmbiente,setMedioAmbiente] = useState([])
+    const {convertirURL} = useContext(contexto)
 
     const filtrar = (noticias)=>{
         let filtro = noticias.filter(noticia=>noticia.categoria=="Deportes")
@@ -31,28 +33,48 @@ const LandingNoticias = () => {
     }
 
     let ultimaNoticia = "";
+    let tituloURL = "";
 
     useEffect(()=>{
-        Axios.get("http://localhost:3001/api/get").then((respuesta)=>{
-            // setNoticias(respuesta.data.slice(Math.max(respuesta.data.length - 4))) //Almacenar las ultimas noticias
+        Axios.get("https://envilo.com.ar/api/get").then((respuesta)=>{
             setNoticias(respuesta.data)
+        }).catch((error)=>{
+            if (error.response) {
+                console.log("The request was made and the server responded with a status code that falls out of the range of 2xx")
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+            } else if (error.request) {
+                console.log("The request was made but no response was received. error.request is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js")
+                console.log(error.request);
+            } else {
+                console.log("Something happened in setting up the request that triggered an Error")
+                console.log('Error', error.message);
+            }
         })
     },[])  
     
     useEffect(()=>{
         filtrar(noticias)
+        document.title = "EnVilo News";
     },[noticias])   
 
     return (
         <>
+            <Helmet>
+                <meta name="title" content="EnVilo News"/>
+                <meta name="description" content="Noticias sobre el partido de Vicente Lopez. Actualidad, sociedad, cultura, politica, deportes y medio ambiente."/>
+                <meta name="keywords" content="VicenteLopez, Vilo, EnVilo, Noticias, Sociedad, Cultura, Politica, Deportes, Actualidad" />
+            </Helmet>
             <main>
                 <div className="landingContainer">
                         <div className="ultimaNoticiaContainer">
                             {noticias.slice(Math.max(noticias.length - 1)).map(noticia=>{
                                 ultimaNoticia=noticia;
+                                tituloURL = convertirURL(ultimaNoticia.titulo)
                             })}
-                            <Link to={`/Noticia/${ultimaNoticia.idnoticia}`}><img className="ultimaNoticiaImg" src={ultimaNoticia.imagen} alt="" /></Link>
-                            <div key={ultimaNoticia.idnoticia}><p><Link to={`/Noticia/${ultimaNoticia.idnoticia}`}><h2 style={{ fontSize: 30 }}>{ultimaNoticia.titulo}</h2></Link><h3 className="fecha">{moment(ultimaNoticia.fechaformato).fromNow()}</h3></p><Link to={`Categoria/${ultimaNoticia.categoria}`}><h3 className={`searchTag ${ultimaNoticia.categoria+"Tag"}`}>{ultimaNoticia.categoria}</h3></Link></div>                           
+                            <Link to={`/noticia/${tituloURL}`}><img className="ultimaNoticiaImg" src={ultimaNoticia.imagen} alt="" /></Link>
+                            <div key={ultimaNoticia.idnoticia}><p><Link to={`/noticia/${tituloURL}`}><h2 id="tituloUltima">{ultimaNoticia.titulo}</h2></Link><h3 className="fecha">{moment(ultimaNoticia.fechaformato).fromNow()}</h3></p><Link to={`/${ultimaNoticia.categoria}`.toLowerCase()}><h3 className={`searchTag ${ultimaNoticia.categoria+"Tag"}`}>{ultimaNoticia.categoria}</h3></Link></div>                           
                         </div>
                         <div className="otrasNoticiasContainer">
                             <h1>Noticias recientes</h1>
@@ -84,7 +106,6 @@ const LandingNoticias = () => {
                         })}
                     </section>
                 </div>
-                
             </main>
         </>
     )

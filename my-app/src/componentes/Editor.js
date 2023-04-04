@@ -4,6 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 import Axios from 'axios'
 import moment from "moment";
 import 'moment/locale/es'; //Importar moment en español
+import { useNavigate } from 'react-router-dom';
 
 const TOOLBAR_OPTIONS = {
     toolbar:  [
@@ -23,15 +24,29 @@ const Editor = () => {
     const [info,setInfo] = useState("")
     const [categoria,setCategoria] = useState("")
     const [imagen,setImagen] = useState("")
+    const [keywords,setKeywords] = useState([])
+    const [SEOdesc, setSEOdesc] = useState("")
+    const navegar = useNavigate()
 
-    let fecha = moment().format("LL")
-    let fechaformato = moment().format()
+    const agregarKeyword = ()=>{
+        const keyword = document.getElementById('keyword')
+        const keywordValue = keyword.value
+        if(keywordValue!=""){
+            setKeywords([...keywords, keywordValue])
+            keyword.value = ""
+        }
+    }
+
+    const eliminarKeyword = (e)=>{
+        let reemplazo = keywords.filter(keyword=>keyword!=e.target.textContent)
+        setKeywords(reemplazo)
+    }
 
     const enviarNoticia = ()=>{
         let fecha = moment().format("LL")
         let fechaformato = moment().format()
         if(categoria!=""&&imagen!=""&&titulo!=""){
-            Axios.post("http://localhost:3001/api/insert",{
+            Axios.post("https://envilo.com.ar/api/insert",{
                 titulo: titulo, 
                 info: info, 
                 categoria: categoria,
@@ -40,6 +55,7 @@ const Editor = () => {
                 fechaformato: fechaformato
             }).then(()=>{
                 alert("Noticia almacenada en la base de datos")
+                navegar("/")
             }).catch(()=>{
                 console.log("Hubo un error al almacenar la noticia")
             })
@@ -49,10 +65,11 @@ const Editor = () => {
         }
     }
 
+    document.title = "Subir noticia";
+
     const subirImagen = async (e) => {
         const img = e.target.files[0];
         const base64 = await convertirBase64(img);
-        console.log(base64)
         setImagen(base64);
     };
 
@@ -90,9 +107,46 @@ const Editor = () => {
                                 onChange={(e)=>{
                                     setTitulo(e.target.value)
                                 }}/>
-                                
                         </div>
                         <ReactQuill theme="snow" value={info} onChange={setInfo} modules={TOOLBAR_OPTIONS} />
+                        <div className="containerSEO">
+                            <div className="descripcionSEO" id=''>
+                                <label htmlFor="">Descripcion para SEO</label>
+                                <p>
+                                    <span
+                                    className="textarea"
+                                    role="textbox"
+                                    required
+                                    contentEditable
+                                    onChange={(e)=>{
+                                        setSEOdesc(e.target.value)
+                                    }}
+                                    ></span>
+                                </p>                            
+                            </div>
+                            <div className='keywordsSEO'>
+                                <label htmlFor="keywords">Keywords SEO</label>
+                                <input 
+                                name='keywords'
+                                id="keyword"
+                                type="text"
+                                placeholder="keyword"
+                                />
+                                <button onClick={agregarKeyword}>Agregar</button>
+                            </div>
+                            <div className="keywordsDisplay">
+                                {keywords.map(keyword=>{
+                                    return <button onClick={eliminarKeyword}>
+                                        {keyword}
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <line x1="18" y1="6" x2="6" y2="18" />
+                                            <line x1="6" y1="6" x2="18" y2="18" />
+                                        </svg>
+                                        </button>
+                                })}
+                            </div>
+                        </div>
                         <label>Categoria</label>
                         <select 
                         name="Categoria"

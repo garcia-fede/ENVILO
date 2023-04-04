@@ -6,9 +6,10 @@ import LandingNoticias from './LandingNoticias'
 import Auth from './Auth'
 import NoticiasListContainer from './NoticiasListContainer'
 import NoticiaDetalleContainer from './NoticiaDetalleContainer'
-import Update from "./Update"
-import MiProvider from "./AuthContext"
+import MiProvider from "./Context"
 import RutaPrivada from "./RutaPrivada"
+import Footer from "./Footer"
+import Update from "./Update"
 
 const App = () => {
 
@@ -19,10 +20,14 @@ const App = () => {
                 <NavBar />
                 <Routes>
                     <Route path="/" element={<LandingNoticias />} />
-                    <Route path="Categoria/:categoria" element={<NoticiasListContainer />} />
-                    <Route path="Noticia/:idnoticia" element={<NoticiaDetalleContainer />} />
-                    <Route path="/Login" element={<Auth />} />
-                    
+                    <Route path="/:categoria" element={<NoticiasListContainer />} />
+                    <Route path="noticia/:noticia" element={<NoticiaDetalleContainer />} />
+                    <Route path="noticia/:noticia/editar" element={
+                        <RutaPrivada>
+                            <Update />
+                        </RutaPrivada>
+                    } />
+                    <Route path="/Login" element={<Auth />} /> 
                     <Route path="NoticiaNueva" element={
                         <RutaPrivada>
                             <Editor />
@@ -30,6 +35,7 @@ const App = () => {
                     }/>
                     {/* <Route path="Edit/" element={<Update />} /> */}
                 </Routes>   
+                <Footer />
             </BrowserRouter>
         </MiProvider>
     </>

@@ -1,12 +1,19 @@
-import {Link} from "react-router-dom"
+import {Link,useNavigate} from "react-router-dom"
 import moment from "moment";
 import 'moment/locale/es'; //Importar moment en español
+import eliminar from "../imagenes/eliminar.png"
+import Axios from 'axios'
+import { useContext } from "react";
+import { contexto } from "./Context";
+
 
 const NoticiaMediana = ({noticia}) =>{
     moment.locale('es')
-    const ruta = "/Noticia/"+noticia.idnoticia
-
-    //Función para visualizar preview de la noticia
+    const navegar = useNavigate();
+    const {login, convertirURL} = useContext(contexto)
+    const tituloURL = convertirURL(noticia.titulo)
+    const ruta = "/noticia/"+tituloURL
+    //Función para visualizar preview de la noticia sin tags de HTML
     const RemoveHTMLTags = (textoReemplazar)=>{
         const pattern = new RegExp("\\<.*?\\>");
         if(textoReemplazar.includes("<"||">")){
@@ -18,6 +25,17 @@ const NoticiaMediana = ({noticia}) =>{
         }
     }
     const previewNoticia = RemoveHTMLTags(noticia.info)
+    const eliminarNoticia = ()=>{
+            Axios.post("https://envilo.com.ar/api/eliminar",{
+                idnoticia: noticia.idnoticia
+            }).then(()=>{
+                alert("Noticia eliminada")
+                navegar("/")
+            }).catch(()=>{
+                console.log("Hubo un error al eliminar la noticia")
+            })
+    }
+    document.title = `${noticia.categoria}`;
 
     return (
         <>
@@ -29,6 +47,10 @@ const NoticiaMediana = ({noticia}) =>{
                     <h3 className="fecha">{moment(noticia.fechaformato).fromNow()}</h3>
                     <p className="info">{previewNoticia}</p>
                     <Link to={ruta}><button>Seguir leyendo &#62;</button></Link>
+                    <div className="eliminarNoticia" style={{'display':` ${login ? 'flex' : 'none'}`}} onClick={eliminarNoticia}>
+                        <img src={eliminar} alt="cruz-eliminar" />
+                        <h3>Eliminar noticia</h3>
+                    </div>
                 </div>
             </div>
         </>
