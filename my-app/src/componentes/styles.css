@@ -22,6 +22,54 @@ br{
     display: none;
 }
 
+/*---------------- Loader ----------------------*/
+
+.loader{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 40px;
+    z-index: 10000;
+    position: fixed;
+    background: white;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    cursor:default;
+    transition: 0.5s ease-in-out;
+}
+
+.loader img{
+    width: 200px;
+    border-radius: 50%;
+    z-index: 10002;
+}
+
+.loader div{
+    position: absolute;
+    width: 195px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: linear-gradient(90deg, rgba(138,178,79,1) 0%, rgba(115,40,125,1) 50%, rgba(5,152,229,1) 100%);
+    z-index: 10001;
+    animation: rotacion infinite 5s;
+}
+
+@keyframes rotacion {
+    from {
+        transform: rotate(0deg);
+        opacity: 0.8;
+    }
+    to {
+        transform: rotate(360deg);
+        opacity: 1;
+    }
+}
+
+
 /*---------------- NavBar ----------------------*/
 
 .topLine{
@@ -576,6 +624,7 @@ span[contenteditable]:empty::before{
     border-radius: 5px;
     width: 200px;
     aspect-ratio: 1;
+    object-fit: cover;
 }
 
 .noticiaMediana .searchTag{

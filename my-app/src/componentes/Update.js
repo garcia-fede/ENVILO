@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Axios from 'axios'
-import moment from "moment";
-import 'moment/locale/es'; //Importar moment en español
 import { useNavigate,useLocation } from 'react-router-dom';
 
 const TOOLBAR_OPTIONS = {
@@ -16,6 +14,7 @@ const TOOLBAR_OPTIONS = {
     [{ align: [] }],
     ["image", "blockquote", "code-block"],
     ["clean"],
+    ["link"]
 ]
 }
 

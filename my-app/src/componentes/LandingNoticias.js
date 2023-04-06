@@ -6,6 +6,7 @@ import NoticiaCategorias from "./NoticiaCategorias"
 import moment from "moment";
 import { contexto } from "./Context"
 import { Helmet } from 'react-helmet';
+import LOGO from "../imagenes/LOGO.png"
 
 
 const LandingNoticias = () => {
@@ -18,6 +19,7 @@ const LandingNoticias = () => {
     const [cultura,setCultura] = useState([])
     const [medioAmbiente,setMedioAmbiente] = useState([])
     const {convertirURL} = useContext(contexto)
+    const [cargando,setCargando] = useState(true)
 
     const filtrar = (noticias)=>{
         let filtro = noticias.filter(noticia=>noticia.categoria=="Deportes")
@@ -38,6 +40,9 @@ const LandingNoticias = () => {
     useEffect(()=>{
         Axios.get("https://envilo.com.ar/api/get").then((respuesta)=>{
             setNoticias(respuesta.data)
+            setTimeout(() => {
+                setCargando(false)
+            }, 500);
         }).catch((error)=>{
             if (error.response) {
                 console.log("The request was made and the server responded with a status code that falls out of the range of 2xx")
@@ -66,6 +71,10 @@ const LandingNoticias = () => {
                 <meta name="description" content="Noticias sobre el partido de Vicente Lopez. Actualidad, sociedad, cultura, politica, deportes y medio ambiente."/>
                 <meta name="keywords" content="VicenteLopez, Vilo, EnVilo, Noticias, Sociedad, Cultura, Politica, Deportes, Actualidad" />
             </Helmet>
+            <div className="loader" style={{'opacity': ` ${cargando ? '1' : '0' }`}} >
+                <img src={LOGO} alt="logo de carga" />
+                <div className="loaderAnimacion"></div>
+            </div>            
             <main>
                 <div className="landingContainer">
                         <div className="ultimaNoticiaContainer">

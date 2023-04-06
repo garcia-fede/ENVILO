@@ -16,6 +16,7 @@ const TOOLBAR_OPTIONS = {
     [{ align: [] }],
     ["image", "blockquote", "code-block"],
     ["clean"],
+    ["link"]
 ]
 }
 

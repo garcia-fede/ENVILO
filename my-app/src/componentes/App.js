@@ -12,7 +12,6 @@ import Footer from "./Footer"
 import Update from "./Update"
 
 const App = () => {
-
     return (
     <>
         <MiProvider>

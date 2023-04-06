@@ -7,6 +7,7 @@ import parse from 'html-react-parser';
 import { Helmet } from 'react-helmet';
 
 const NoticiaDetalle = ({noticia})=>{
+
     document.title = noticia.titulo;
     const {login} = useContext(contexto)
 
@@ -16,6 +17,8 @@ const NoticiaDetalle = ({noticia})=>{
             <Helmet>
                 <meta name="title" content={noticia.titulo}/>
                 <meta name="description" content=""/>
+                <meta property="og:image" content={noticia.imagen} />
+                <meta property="og:title" content={noticia.titulo} />
             </Helmet>
             <div className="noticiaDetalle" key={noticia.idnoticia}>
                 <img className="imagenPrincipal" src={noticia.imagen} alt="" />
@@ -23,7 +26,6 @@ const NoticiaDetalle = ({noticia})=>{
                 <Link to={`/${noticia.categoria}`.toLowerCase()} ><h2 className={`searchTag ${noticia.categoria+"Tag"}`}>{noticia.categoria}</h2></Link>
                 <h2 className="fecha">{noticia.fechatexto}</h2>
                 {parse(noticia.info)}
-                
                 <Link to="editar" state={noticia}>
                     <div className="editarNoticia" style={{'display':` ${login ? 'flex' : 'none'}`}}>
                         <h3>Editar</h3>
@@ -36,7 +38,6 @@ const NoticiaDetalle = ({noticia})=>{
                     </div>  
                 </Link>
             </div>
-            
         </>
 
     )
