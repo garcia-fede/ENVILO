@@ -511,6 +511,7 @@ span[contenteditable]:empty::before{
 .noticiaPequeña img{
     width: 125px;
     aspect-ratio: 1;
+    object-fit: cover;
 }
 
 .noticiaPequeña a{
@@ -1047,6 +1048,7 @@ span[contenteditable]:empty::before{
 
     .noticiaPequeña img{
         width: 100px;
+        object-fit: cover;
     }
 }
 

@@ -1,10 +1,27 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import Axios from "axios";
 
 export const contexto = createContext()
 const { Provider } = contexto
 
 const MiProvider = ({children}) => {
     const [login,setLogin] = useState("")
+    const [noticias, setNoticias] = useState([]);
+
+    useEffect(() => {
+        Axios.get("https://envilo.com.ar/api/get")
+        .then((response) => {
+            setNoticias(response.data);
+            console.log("cambio")
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+        .finally(() => {
+            // setLoading(false);
+            console.log("Terminó la carga")
+        });
+    }, []);
 
     const convertirURL = (texto)=>{
         //Eliminar tildes y mayusculas 
@@ -16,7 +33,9 @@ const MiProvider = ({children}) => {
     const contextValue = {
         login,
         setLogin,
-        convertirURL
+        convertirURL,
+        noticias,
+        setNoticias
     }
 
     return (

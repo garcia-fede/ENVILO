@@ -17,7 +17,6 @@ const NoticiaCategorias = ({noticia}) =>{
                 <div className="previewNoticia">
                     <Link to={`/${noticia.categoria}`.toLowerCase()}><h2 className={`searchTag ${noticia.categoria+"Tag"}`}>{noticia.categoria}</h2></Link>
                     <Link to={ruta}><h2 className="tituloMediano">{noticia.titulo}</h2></Link>
-                    <h3 className="fecha">{moment(noticia.fechaformato).fromNow()}</h3>
                 </div>
             </div>
         </>

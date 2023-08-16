@@ -29,7 +29,7 @@ const NoticiaDetalle = ({noticia})=>{
                 <Link to="editar" state={noticia}>
                     <div className="editarNoticia" style={{'display':` ${login ? 'flex' : 'none'}`}}>
                         <h3>Editar</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#f1f1f1" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="25" height="25" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#f1f1f1" fill="none">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
                             <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
